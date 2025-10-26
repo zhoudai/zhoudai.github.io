@@ -37,12 +37,13 @@ jobs:
         run: hugo --minify
 
       # 4. Deploy (部署)
-      # peaceiris/actions-gh-pages 负责将 ./public 目录推送到 gh-pages 分支（或你配置的分支）
+      # peaceiris/actions-gh-pages 负责将 ./public 目录推送到指定分支
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         if: github.ref == 'refs/heads/main'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
-          # publish_branch: gh-pages # 默认是 gh-pages，如果你想推送到 main 或 master，可以自行修改
-          # cname: zhoudai.github.io # 仅当使用自定义域名时启用
+          # 【✨ 新增：强制推送到 main 分支，适用于用户/组织页面】
+          publish_branch: main 
+          # cname: zhoudai.github.io # 仅当您使用自定义域名时才需要
