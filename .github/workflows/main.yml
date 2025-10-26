@@ -6,15 +6,24 @@ on:
       - main
   pull_request:
 
+# ----------------------------------------------------
+# 关键修复：添加权限配置以允许 actions-gh-pages 推送
+# ----------------------------------------------------
+permissions:
+  contents: write  # 授予写入权限，允许 Git push 操作
+  pages: write     # 启用 Pages 部署（推荐）
+  id-token: write  # 启用 OIDC 认证（推荐）
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       # 1. Checkout 代码并递归获取子模块（主题）
-      - uses: actions/checkout@v4
+      - name: Checkout Repository and Submodules
+        uses: actions/checkout@v4
         with:
-          submodules: true  # <--- 必须设置为 true
-          fetch-depth: 0
+          submodules: true
+          fetch-depth: 0 # 确保获取所有历史记录，避免 128 错误
 
       # 2. Setup Hugo 环境
       - name: Setup Hugo
@@ -24,15 +33,16 @@ jobs:
           extended: true
 
       # 3. Build (构建)
-      - name: Build
+      - name: Build Hugo Site
         run: hugo --minify
 
       # 4. Deploy (部署)
-      - name: Deploy
+      # peaceiris/actions-gh-pages 负责将 ./public 目录推送到 gh-pages 分支（或你配置的分支）
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         if: github.ref == 'refs/heads/main'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
-          # 确保这里也设置 submodules: true 增强稳定性
-          # cname: zhoudai.github.io # 仅当您使用自定义域名时才需要
+          # publish_branch: gh-pages # 默认是 gh-pages，如果你想推送到 main 或 master，可以自行修改
+          # cname: zhoudai.github.io # 仅当使用自定义域名时启用
