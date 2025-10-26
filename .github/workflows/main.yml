@@ -35,4 +35,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
           # 确保这里也设置 submodules: true 增强稳定性
-          # cname: zhoudao.github.io # 仅当您使用自定义域名时才需要
+          # cname: zhoudai.github.io # 仅当您使用自定义域名时才需要
