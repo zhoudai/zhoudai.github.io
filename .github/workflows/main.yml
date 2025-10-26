@@ -3,31 +3,36 @@ name: GitHub Pages Deployment
 on:
   push:
     branches:
-      - main # 确保这是您的主分支名称 (可能是 main 或 master)
+      - main
   pull_request:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      # 1. Checkout 代码并递归获取子模块（主题）
       - uses: actions/checkout@v4
         with:
-          submodules: true  # 获取您的主题子模块
+          submodules: true  # <--- 必须设置为 true
           fetch-depth: 0
 
+      # 2. Setup Hugo 环境
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
         with:
           hugo-version: 'latest'
           extended: true
 
+      # 3. Build (构建)
       - name: Build
         run: hugo --minify
 
+      # 4. Deploy (部署)
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
-        if: github.ref == 'refs/heads/main' # 确保分支名称正确
+        if: github.ref == 'refs/heads/main'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
-          # cname: zhoudai.github.io # 仅当您使用自己的自定义域名时才需要
+          # 确保这里也设置 submodules: true 增强稳定性
+          # cname: zhoudao.github.io # 仅当您使用自定义域名时才需要
