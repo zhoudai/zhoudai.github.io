@@ -1,0 +1,4 @@
+baseURL = 'https://zhoudai.github.io'
+languageCode = 'zh-cn'
+title = '周到心迹'
+theme = "hugo-blog-awesome"
