@@ -1,0 +1,14 @@
+<footer class="bg-gray-800 text-white p-6 text-center shadow-lg mt-12">
+    <div class="max-w-4xl mx-auto">
+        <p class="text-sm font-light">
+            <!-- 仅保留 @ 年份 周到心迹 -->
+            @ {{ now.Format "2006" }} 周到心迹
+        </p>
+    </div>
+</footer>
+
+{{- if .Site.Params.goToTop -}}
+<a href="#" title="{{ T "footer.go_to_top" }}" id="totop">
+    {{ partial "svgs/arrowUp.svg" (dict "height" 48 "width" 48) . }}
+</a>
+{{- end -}}
