@@ -44,6 +44,6 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
-          # 【✨ 新增：强制推送到 main 分支，适用于用户/组织页面】
-          publish_branch: main 
+          # 【已移除强制推送到 main 的配置】
+          # Action 将默认推送到 gh-pages 分支
           # cname: zhoudai.github.io # 仅当您使用自定义域名时才需要
